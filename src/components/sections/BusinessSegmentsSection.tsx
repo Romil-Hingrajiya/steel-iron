@@ -51,7 +51,7 @@ const businessSegments: BusinessSegment[] = [
 const BusinessSegmentsSection: React.FC = () => {
   return (
     <section className="bg-[#58915B] text-white py-16">
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="container max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Section Title */}
         <div className="text-center mb-16">
           <Heading level={2} className="text-white text-3xl md:text-4xl font-bold uppercase tracking-wide">

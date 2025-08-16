@@ -17,7 +17,7 @@ const AboutPage = () => {
         </div>
         
         {/* Dark Green Overlay */}
-        <div className="absolute inset-0 bg-[#2A4734] bg-opacity-80 z-10"></div>
+        <div className="absolute inset-0 bg-gradient-to-br from-[#2A4734] via-[#1a2f1f] to-[#0f1a0f] bg-opacity-80 z-10"></div>
         
         {/* Content */}
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-20">

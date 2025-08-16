@@ -4,7 +4,7 @@ import Button from '@/components/ui/Button';
 
 const HeroSection: React.FC = () => {
   return (
-    <section className="relative bg-[#2A4734] text-white min-h-screen flex items-center overflow-hidden">
+    <section className="relative bg-gradient-to-br from-[#2A4734] via-[#1a2f1f] to-[#0f1a0f] text-white min-h-screen flex items-center overflow-hidden">
       {/* Background Image */}
       <div className="absolute inset-0 z-0">
         <div 

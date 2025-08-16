@@ -59,7 +59,7 @@ export default function ProductsPage() {
   return (
     <>
       {/* Hero Section */}
-      <section className="bg-gradient-to-br from-[#58915B] via-[#99BF9C] to-[#2A4734] text-white py-20">
+      <section className="bg-gradient-to-br from-[#2A4734] via-[#1a2f1f] to-[#0f1a0f] text-white py-20">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center">
             <div className="mb-6">

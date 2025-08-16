@@ -22,6 +22,7 @@ const navItems: NavItem[] = [
     ]
   },
   { label: 'About', href: '/about' },
+  { label: 'Certificates', href: '/certificates' },
   { label: 'Contact', href: '/contact' },
 ];
 
@@ -90,7 +91,7 @@ const Navbar: React.FC = () => {
             <div className="w-8 h-8 bg-[#58915B] rounded-lg flex items-center justify-center">
               <span className="text-white font-bold text-lg">S</span>
             </div>
-            <span className="text-xl font-bold text-[#58915B]">Steel</span>
+            <span className="text-xl font-bold text-white">Steel</span>
           </Link>
 
           {/* Desktop Navigation */}
@@ -99,24 +100,31 @@ const Navbar: React.FC = () => {
               <div key={item.label} className="relative group">
                 {item.children ? (
                   <div className="relative">
-                    <button
-                      className={`px-3 py-2 text-sm font-medium text-[#58915B] relative transition-colors ${
-                        isActiveLink(item.href)
-                          ? 'text-[#58915B]'
-                          : 'hover:text-[#99BF9C]'
-                      }`}
-                      onMouseEnter={() => setActiveDropdown(item.label)}
-                      onMouseLeave={() => setActiveDropdown(null)}
-                    >
-                      {item.label}
-                      <svg className="inline-block w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                      </svg>
-                      {/* Animated underline */}
-                      <span className={`absolute bottom-0 left-0 h-0.5 bg-[#99BF9C] transition-all duration-300 ease-out ${
-                        isActiveLink(item.href) ? 'w-full' : 'w-0 group-hover:w-full'
-                      }`}></span>
-                    </button>
+                    <div className="flex items-center">
+                      <Link
+                        href={item.href}
+                        className={`px-3 py-2 text-sm font-medium text-white relative transition-colors ${
+                          isActiveLink(item.href)
+                            ? 'text-[#58915B]'
+                            : 'hover:text-[#99BF9C]'
+                        }`}
+                      >
+                        {item.label}
+                        {/* Animated underline */}
+                        <span className={`absolute bottom-0 left-0 h-0.5 bg-[#99BF9C] transition-all duration-300 ease-out ${
+                          isActiveLink(item.href) ? 'w-full' : 'w-0 group-hover:w-full'
+                        }`}></span>
+                      </Link>
+                      <button
+                        className="px-1 py-2 text-sm font-medium text-white relative transition-colors"
+                        onMouseEnter={() => setActiveDropdown(item.label)}
+                        onMouseLeave={() => setActiveDropdown(null)}
+                      >
+                        <svg className="inline-block w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                        </svg>
+                      </button>
+                    </div>
                     
                     {/* Mega Dropdown */}
                     {activeDropdown === item.label && (
@@ -197,23 +205,30 @@ const Navbar: React.FC = () => {
                 <div key={item.label}>
                   {item.children ? (
                     <div>
-                      <button
-                        className={`w-full text-left px-3 py-2 text-sm font-medium text-white transition-colors relative group ${
-                          isActiveLink(item.href)
-                            ? 'text-[#99BF9C]'
-                            : 'hover:text-[#99BF9C]'
-                        }`}
-                        onClick={() => handleDropdownToggle(item.label)}
-                      >
-                        {item.label}
-                        <svg className={`inline-block w-4 h-4 ml-1 transition-transform ${activeDropdown === item.label ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                        </svg>
-                        {/* Animated underline for mobile */}
-                        <span className={`absolute bottom-0 left-0 h-0.5 bg-[#99BF9C] transition-all duration-300 ease-out ${
-                          isActiveLink(item.href) ? 'w-full' : 'w-0 group-hover:w-full'
-                        }`}></span>
-                      </button>
+                      <div className="flex items-center justify-between">
+                        <Link
+                          href={item.href}
+                          className={`flex-1 text-left px-3 py-2 text-sm font-medium text-white transition-colors relative group ${
+                            isActiveLink(item.href)
+                              ? 'text-[#99BF9C]'
+                              : 'hover:text-[#99BF9C]'
+                          }`}
+                        >
+                          {item.label}
+                          {/* Animated underline for mobile */}
+                          <span className={`absolute bottom-0 left-0 h-0.5 bg-[#99BF9C] transition-all duration-300 ease-out ${
+                            isActiveLink(item.href) ? 'w-full' : 'w-0 group-hover:w-full'
+                          }`}></span>
+                        </Link>
+                        <button
+                          className="px-3 py-2 text-sm font-medium text-white transition-colors"
+                          onClick={() => handleDropdownToggle(item.label)}
+                        >
+                          <svg className={`inline-block w-4 h-4 transition-transform ${activeDropdown === item.label ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                          </svg>
+                        </button>
+                      </div>
                       
                       {activeDropdown === item.label && (
                         <div className="ml-4 mt-2 space-y-1">

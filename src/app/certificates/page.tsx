@@ -1,308 +1,271 @@
-import React from 'react';
+'use client';
+
+import React, { useState, useEffect } from 'react';
+import Image from 'next/image';
 import Heading from '@/components/ui/Heading';
 import Button from '@/components/ui/Button';
+import CTASection from '@/components/sections/CTASection';
 
 const CertificatesPage = () => {
-  const certificates = [
-    {
-      name: 'ISO 9001:2015',
-      description: 'Quality Management System Certification',
-      category: 'Quality Management',
-      validUntil: '2025-12-31',
-      issuer: 'International Organization for Standardization',
-      status: 'Active'
-    },
-    {
-      name: 'ISO 14001:2015',
-      description: 'Environmental Management System Certification',
-      category: 'Environmental Management',
-      validUntil: '2025-12-31',
-      issuer: 'International Organization for Standardization',
-      status: 'Active'
-    },
-    {
-      name: 'OHSAS 18001:2007',
-      description: 'Occupational Health and Safety Management',
-      category: 'Health & Safety',
-      validUntil: '2025-12-31',
-      issuer: 'British Standards Institution',
-      status: 'Active'
-    },
-    {
-      name: 'ASME BPVC',
-      description: 'Boiler and Pressure Vessel Code Certification',
-      category: 'Pressure Equipment',
-      validUntil: '2025-12-31',
-      issuer: 'American Society of Mechanical Engineers',
-      status: 'Active'
-    },
-    {
-      name: 'API Q1',
-      description: 'Quality Management System for Petroleum Industry',
-      category: 'Petroleum Industry',
-      validUntil: '2025-12-31',
-      issuer: 'American Petroleum Institute',
-      status: 'Active'
-    },
-    {
-      name: 'AWS D1.1',
-      description: 'Structural Welding Code Certification',
-      category: 'Welding Standards',
-      validUntil: '2025-12-31',
-      issuer: 'American Welding Society',
-      status: 'Active'
-    }
-  ];
+  const [currentPage, setCurrentPage] = useState(1);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
+  const [preloadedImages, setPreloadedImages] = useState<Set<number>>(new Set());
 
-  const complianceDocuments = [
-    {
-      name: 'Safety Data Sheets',
-      description: 'Comprehensive safety information for all products',
-      category: 'Safety Documentation',
-      lastUpdated: '2024-01-15'
-    },
-    {
-      name: 'Technical Specifications',
-      description: 'Detailed technical specifications for all equipment',
-      category: 'Technical Documentation',
-      lastUpdated: '2024-02-20'
-    },
-    {
-      name: 'Installation Manuals',
-      description: 'Step-by-step installation and commissioning guides',
-      category: 'Installation Guides',
-      lastUpdated: '2024-01-30'
-    },
-    {
-      name: 'Maintenance Procedures',
-      description: 'Preventive and corrective maintenance procedures',
-      category: 'Maintenance Documentation',
-      lastUpdated: '2024-02-10'
+  const imagesPerPage = 10;
+  const totalImages = 14;
+  const totalPages = Math.ceil(totalImages / imagesPerPage);
+
+  // Generate image paths
+  const generateImagePath = (index: number) => {
+    const path = `/certificates/certificate-gaslin-belgeler-${index + 1}.jpg`;
+    // console.log(`Generated path for index ${index}: ${path}`);
+    return path;
+  };
+
+
+
+  // Get current page images
+  const getCurrentPageImages = () => {
+    const startIndex = (currentPage - 1) * imagesPerPage;
+    const endIndex = Math.min(startIndex + imagesPerPage, totalImages);
+    return Array.from({ length: endIndex - startIndex }, (_, i) => startIndex + i);
+  };
+
+  // Preload images for modal navigation
+  useEffect(() => {
+    if (isModalOpen) {
+      const preloadIndexes = [
+        currentImageIndex - 1,
+        currentImageIndex + 1
+      ].filter(index => index >= 0 && index < totalImages);
+
+      preloadIndexes.forEach(index => {
+        if (!preloadedImages.has(index)) {
+          const img = new window.Image();
+          img.src = generateImagePath(index);
+          setPreloadedImages(prev => new Set([...prev, index]));
+        }
+      });
     }
-  ];
+  }, [isModalOpen, currentImageIndex, preloadedImages, totalImages]);
+
+  // Handle keyboard navigation
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (!isModalOpen) return;
+
+      switch (e.key) {
+        case 'Escape':
+          setIsModalOpen(false);
+          break;
+        case 'ArrowLeft':
+          e.preventDefault();
+          setCurrentImageIndex(prev => prev > 0 ? prev - 1 : totalImages - 1);
+          break;
+        case 'ArrowRight':
+          e.preventDefault();
+          setCurrentImageIndex(prev => prev < totalImages - 1 ? prev + 1 : 0);
+          break;
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [isModalOpen, totalImages]);
+
+  // Open modal
+  const openModal = (imageIndex: number) => {
+    setCurrentImageIndex(imageIndex);
+    setIsModalOpen(true);
+  };
+
+  // Close modal
+  const closeModal = () => {
+    setIsModalOpen(false);
+  };
+
+  // Navigate in modal
+  const navigateModal = (direction: 'prev' | 'next') => {
+    if (direction === 'prev') {
+      setCurrentImageIndex(prev => prev > 0 ? prev - 1 : totalImages - 1);
+    } else {
+      setCurrentImageIndex(prev => prev < totalImages - 1 ? prev + 1 : 0);
+    }
+  };
+
+  // Handle modal backdrop click
+  const handleModalBackdropClick = (e: React.MouseEvent) => {
+    if (e.target === e.currentTarget) {
+      closeModal();
+    }
+  };
 
   return (
     <>
       {/* Hero Section */}
-      <section className="bg-gradient-to-br from-[#58915B] to-[#2A4734] text-white py-20">
+      <section className="bg-gradient-to-br from-[#2A4734] via-[#1a2f1f] to-[#0f1a0f] text-white py-20">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center">
-            <Heading level={1} className="text-white mb-6">
-              Certificates & Compliance
-            </Heading>
+          <div className="text-center max-w-3xl py-6">
+            <h2 className="text-white mb-6 text-4xl md:text-5xl lg:text-6xl font-bold text-left">
+            Recognitions That Reflect Our Commitment to Excellence
+            </h2>
             <p className="text-xl md:text-2xl mb-8 max-w-3xl mx-auto">
-              Our commitment to quality, safety, and environmental responsibility is backed by internationally recognized certifications
+            Explore our collection of professional certifications, each a testament to our skills, standards, and dedication to delivering quality you can trust.
             </p>
           </div>
         </div>
       </section>
 
-      {/* Overview Section */}
-      <section className="bg-white py-16">
+      {/* Certificates Gallery Section */}
+      <section className="max-w-7xl mx-auto bg-white py-16">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
             <Heading level={2} className="mb-6">
-              Quality Assurance & Compliance
+              Our Certificates
             </Heading>
             <p className="text-lg text-gray-600 max-w-3xl mx-auto">
-              We maintain the highest standards of quality, safety, and environmental responsibility. 
-              Our certifications demonstrate our commitment to excellence and compliance with international standards.
+            Explore our collection of professional certifications, each a testament to our skills, standards, and dedication to delivering quality you can trust.
             </p>
           </div>
-          
-          <div className="grid md:grid-cols-3 gap-8 mb-12">
-            <div className="text-center p-6 bg-gray-50 rounded-lg">
-              <div className="text-4xl mb-4">🏆</div>
-              <h3 className="text-xl font-semibold text-[#2A4734] mb-3">Quality Excellence</h3>
-              <p className="text-gray-600">ISO 9001 certified quality management system ensuring consistent excellence</p>
-            </div>
-            <div className="text-center p-6 bg-gray-50 rounded-lg">
-              <div className="text-4xl mb-4">🌱</div>
-              <h3 className="text-xl font-semibold text-[#2A4734] mb-3">Environmental Responsibility</h3>
-              <p className="text-gray-600">ISO 14001 environmental management system for sustainable operations</p>
-            </div>
-            <div className="text-center p-6 bg-gray-50 rounded-lg">
-              <div className="text-4xl mb-4">🛡️</div>
-              <h3 className="text-xl font-semibold text-[#2A4734] mb-3">Safety First</h3>
-              <p className="text-gray-600">OHSAS 18001 health and safety management for workplace protection</p>
-            </div>
-          </div>
-        </div>
-      </section>
 
-      {/* Certificates Section */}
-      <section className="bg-gray-50 py-16">
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-12">
-            <Heading level={2} className="mb-4">
-              Our Certifications
-            </Heading>
-            <p className="text-lg text-gray-600 max-w-3xl mx-auto">
-              Internationally recognized certifications that validate our commitment to quality and safety
-            </p>
-          </div>
-          
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {certificates.map((cert, index) => (
-              <div key={index} className="bg-white rounded-lg shadow-lg overflow-hidden">
-                <div className="bg-gradient-to-r from-[#58915B] to-[#99BF9C] p-6">
-                  <div className="flex justify-between items-start">
-                    <h3 className="text-xl font-semibold text-white">{cert.name}</h3>
-                    <span className="px-3 py-1 bg-white text-[#58915B] text-sm font-semibold rounded-full">
-                      {cert.status}
-                    </span>
-                  </div>
-                </div>
-                <div className="p-6">
-                  <p className="text-gray-600 mb-4">{cert.description}</p>
-                  
-                  <div className="space-y-3 text-sm">
-                    <div className="flex justify-between">
-                      <span className="font-semibold text-[#2A4734]">Category:</span>
-                      <span className="text-gray-600">{cert.category}</span>
-                    </div>
-                    <div className="flex justify-between">
-                      <span className="font-semibold text-[#2A4734]">Issuer:</span>
-                      <span className="text-gray-600">{cert.issuer}</span>
-                    </div>
-                    <div className="flex justify-between">
-                      <span className="font-semibold text-[#2A4734]">Valid Until:</span>
-                      <span className="text-gray-600">{cert.validUntil}</span>
-                    </div>
-                  </div>
-                  
-                  <Button variant="primary" className="w-full mt-6">
-                    View Certificate
-                  </Button>
-                </div>
-              </div>
+          {/* Image Grid */}
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 mb-8">
+            {getCurrentPageImages().map((imageIndex) => (
+                                            <div
+                 key={imageIndex}
+                 className="aspect-[3/4] relative group cursor-pointer overflow-hidden rounded-lg shadow-md hover:shadow-xl transition-all duration-300 transform hover:scale-105 bg-gray-100"
+                 onClick={() => openModal(imageIndex)}
+               >
+                 <img
+                   src={generateImagePath(imageIndex)}
+                   alt={`Certificate ${imageIndex + 1}`}
+                   className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110"
+                   style={{ zIndex: 999 }}
+                                       onError={(e) => {
+                      // console.error(`Failed to load image: ${generateImagePath(imageIndex)}`);
+                      // console.error('Error:', e);
+                      // Add a visible error indicator
+                      const target = e.target as HTMLImageElement;
+                      target.style.backgroundColor = '#ff0000';
+                      target.style.border = '2px solid red';
+                    }}
+                    onLoad={() => {
+                      // console.log(`Successfully loaded image: ${generateImagePath(imageIndex)}`);
+                    }}
+                 />
+                 <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black to-transparent p-3 z-50">
+                   <p className="text-white text-sm font-medium">Certificate {imageIndex + 1}</p>
+                 </div>
+               </div>
             ))}
           </div>
-        </div>
-      </section>
 
-      {/* Compliance Documents */}
-      <section className="bg-white py-16">
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-12">
-            <Heading level={2} className="mb-4">
-              Compliance Documentation
-            </Heading>
-            <p className="text-lg text-gray-600 max-w-3xl mx-auto">
-              Essential documentation for safety, installation, and maintenance of our products
-            </p>
-          </div>
-          
-          <div className="grid md:grid-cols-2 gap-8">
-            {complianceDocuments.map((doc, index) => (
-              <div key={index} className="bg-white rounded-lg shadow-lg p-6">
-                <div className="flex items-start justify-between mb-4">
-                  <div>
-                    <h3 className="text-xl font-semibold text-[#2A4734] mb-2">{doc.name}</h3>
-                    <p className="text-gray-600 mb-3">{doc.description}</p>
-                  </div>
-                  <div className="text-3xl">📄</div>
-                </div>
-                
-                <div className="flex justify-between items-center text-sm text-gray-600 mb-4">
-                  <span className="font-semibold">{doc.category}</span>
-                  <span>Updated: {doc.lastUpdated}</span>
-                </div>
-                
-                <div className="flex gap-3">
-                  <Button variant="primary" size="sm">
-                    Download PDF
-                  </Button>
-                  <Button variant="outline" size="sm">
-                    View Online
-                  </Button>
-                </div>
+          {/* Pagination */}
+          {totalPages > 1 && (
+            <div className="flex justify-center items-center space-x-2">
+              {/* Previous Button */}
+              <button
+                onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}
+                disabled={currentPage === 1}
+                className="px-4 py-2 text-sm font-medium text-[#58915B] bg-white border border-[#58915B] rounded-lg hover:bg-[#58915B] hover:text-white disabled:opacity-50 disabled:cursor-not-allowed transition-colors duration-200"
+              >
+                Previous
+              </button>
+
+              {/* Page Numbers */}
+              <div className="flex space-x-1">
+                {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
+                  <button
+                    key={page}
+                    onClick={() => setCurrentPage(page)}
+                    className={`px-3 py-2 text-sm font-medium rounded-lg transition-colors duration-200 ${
+                      currentPage === page
+                        ? 'bg-[#58915B] text-white'
+                        : 'text-[#58915B] bg-white border border-[#58915B] hover:bg-[#58915B] hover:text-white'
+                    }`}
+                  >
+                    {page}
+                  </button>
+                ))}
               </div>
-            ))}
-          </div>
+
+              {/* Next Button */}
+              <button
+                onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPages))}
+                disabled={currentPage === totalPages}
+                className="px-4 py-2 text-sm font-medium text-[#58915B] bg-white border border-[#58915B] rounded-lg hover:bg-[#58915B] hover:text-white disabled:opacity-50 disabled:cursor-not-allowed transition-colors duration-200"
+              >
+                Next
+              </button>
+            </div>
+          )}
         </div>
       </section>
 
-      {/* Standards & Regulations */}
-      <section className="bg-gray-50 py-16">
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid lg:grid-cols-2 gap-12 items-center">
-            <div>
-              <Heading level={2} className="mb-6">
-                Standards & Regulations
-              </Heading>
-              <p className="text-lg mb-6">
-                Our products and services comply with international standards and regulations, ensuring 
-                safety, quality, and environmental responsibility in all our operations.
-              </p>
-              <p className="text-lg mb-8">
-                We regularly update our processes and documentation to maintain compliance with the latest 
-                industry standards and regulatory requirements.
-              </p>
-              <Button variant="primary" size="lg">
-                Download Compliance Guide
-              </Button>
-            </div>
-            <div className="bg-white rounded-lg p-8 shadow-lg">
-              <h3 className="text-xl font-semibold text-[#2A4734] mb-6">Key Standards We Follow</h3>
-              <div className="space-y-4">
-                <div className="flex items-center">
-                  <div className="w-8 h-8 bg-[#58915B] rounded-full flex items-center justify-center mr-3">
-                    <span className="text-white text-sm">✓</span>
-                  </div>
-                  <span className="text-gray-700">International Organization for Standardization (ISO)</span>
-                </div>
-                <div className="flex items-center">
-                  <div className="w-8 h-8 bg-[#58915B] rounded-full flex items-center justify-center mr-3">
-                    <span className="text-white text-sm">✓</span>
-                  </div>
-                  <span className="text-gray-700">American Society of Mechanical Engineers (ASME)</span>
-                </div>
-                <div className="flex items-center">
-                  <div className="w-8 h-8 bg-[#58915B] rounded-full flex items-center justify-center mr-3">
-                    <span className="text-white text-sm">✓</span>
-                  </div>
-                  <span className="text-gray-700">American Petroleum Institute (API)</span>
-                </div>
-                <div className="flex items-center">
-                  <div className="w-8 h-8 bg-[#58915B] rounded-full flex items-center justify-center mr-3">
-                    <span className="text-white text-sm">✓</span>
-                  </div>
-                  <span className="text-gray-700">American Welding Society (AWS)</span>
-                </div>
-                <div className="flex items-center">
-                  <div className="w-8 h-8 bg-[#58915B] rounded-full flex items-center justify-center mr-3">
-                    <span className="text-white text-sm">✓</span>
-                  </div>
-                  <span className="text-gray-700">National Fire Protection Association (NFPA)</span>
-                </div>
+      {/* Modal */}
+      {isModalOpen && (
+        <div
+          className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-75 backdrop-blur-sm"
+          onClick={handleModalBackdropClick}
+        >
+                     {/* Close Button */}
+           <button
+             onClick={closeModal}
+             className="absolute top-4 right-4 cursor-pointer z-10 p-2 bg-red-500 bg-opacity-80 hover:bg-opacity-100 hover:scale-105 rounded-full transition-all duration-200"
+           >
+             <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+             </svg>
+           </button>
+
+           {/* Navigation Arrows */}
+           <button
+             onClick={() => navigateModal('prev')}
+             className="absolute left-4 top-1/2 cursor-pointer transform -translate-y-1/2 z-10 p-3 bg-[#58915B] bg-opacity-80 hover:bg-opacity-100 rounded-full transition-all duration-200"
+           >
+             <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+             </svg>
+           </button>
+
+           <button
+             onClick={() => navigateModal('next')}
+             className="absolute right-4 top-1/2 cursor-pointer transform -translate-y-1/2 z-10 p-3 bg-[#58915B] bg-opacity-80 hover:bg-opacity-100 rounded-full transition-all duration-200"
+           >
+             <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+             </svg>
+           </button>
+
+          {/* Image Container */}
+          <div className="relative w-full h-full flex items-center justify-center p-4">
+            <div className="relative max-w-full max-h-full">
+              <Image
+                src={generateImagePath(currentImageIndex)}
+                alt={`Certificate ${currentImageIndex + 1}`}
+                width={800}
+                height={1000}
+                className="max-w-full max-h-[90vh] object-contain"
+                priority
+              />
+              
+              {/* Image Counter */}
+              <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 bg-black bg-opacity-50 text-white px-4 py-2 rounded-lg">
+                {currentImageIndex + 1} of {totalImages}
               </div>
             </div>
           </div>
         </div>
-      </section>
+      )}
 
-      {/* Contact Section */}
-      <section className="bg-gradient-to-r from-[#2A4734] to-[#58915B] text-white py-16">
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center">
-            <Heading level={2} className="text-white mb-6">
-              Need More Information?
-            </Heading>
-            <p className="text-xl mb-8 max-w-2xl mx-auto">
-              Contact our compliance team for detailed information about our certifications and documentation
-            </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Button variant="secondary" size="lg">
-                Contact Compliance Team
-              </Button>
-              <Button variant="outline" size="lg" className="border-white text-white hover:bg-white hover:text-[#2A4734]">
-                Request Documentation
-              </Button>
-            </div>
-          </div>
-        </div>
-      </section>
+             {/* CTA Section */}
+       <CTASection 
+         title="Get in touch!"
+         description="Whether you already know what you need, or you would like the opinion of an expert, we are always ready to help you out."
+         buttonText="Contact us now"
+         buttonLink="/contact"
+       />
     </>
   );
 };
