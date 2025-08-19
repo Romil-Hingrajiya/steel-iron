@@ -6,38 +6,42 @@ const AboutPage = () => {
   return (
     <>
       {/* Hero Section with Banner */}
-      <section className="relative min-h-screen flex items-center overflow-hidden">
+      <section className="relative bg-gradient-to-br from-[#2A4734] via-[#1a2f1f] to-[#0f1a0f] text-white min-h-screen flex items-center overflow-hidden">
         {/* Background Image */}
         <div className="absolute inset-0 z-0">
-          <img
-            src="/about-banner.webp"
-            alt="Gas Equipment Background"
-            className="w-full h-full object-cover"
+          <div 
+            className="w-full h-full bg-cover bg-center bg-no-repeat"
+            style={{
+              backgroundImage: 'url(/about-banner.webp)',
+            }}
           />
         </div>
         
-        {/* Dark Green Overlay */}
-        <div className="absolute inset-0 bg-gradient-to-br from-[#2A4734] via-[#1a2f1f] to-[#0f1a0f] bg-opacity-80 z-10"></div>
+        {/* Green Blur Overlay for Better Text Visibility */}
+        <div className="absolute inset-0 bg-gradient-to-br from-[#2A4734]/90 via-[#1a2f1f]/85 to-[#0f1a0f]/90 z-10"></div>
         
         {/* Content */}
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-20">
-          <div className="max-w-4xl">
-            {/* Tagline */}
-            <div className="mb-4">
-              <span className="text-sm font-medium text-white opacity-90 tracking-wide uppercase">
-                Steel Gas Equipment
-              </span>
+          <div className="min-h-screen flex items-center">
+            {/* Left Side Content Only */}
+            <div className="text-left max-w-3xl">
+              {/* Tagline */}
+              <div className="mb-4">
+                <span className="text-sm font-medium text-white opacity-90 tracking-wide uppercase">
+                  Steel Gas Equipment
+                </span>
+              </div>
+              
+              {/* Main Heading */}
+              <Heading level={1} className="text-white text-4xl md:text-5xl lg:text-6xl font-bold leading-tight mb-8">
+                Who we are
+              </Heading>
+              
+              {/* Description */}
+              <p className="text-white text-lg md:text-xl leading-relaxed mb-8">
+                Steel Gas Equipment offer a wide range of components and equipment along with expert guidance from the beginning to the end of your project. In that way, we provide you with much more than just a product.
+              </p>
             </div>
-            
-            {/* Main Heading */}
-            <Heading level={1} className="text-white text-5xl md:text-6xl lg:text-7xl font-bold leading-tight mb-8">
-              Who we are
-            </Heading>
-            
-            {/* Description */}
-            <p className="text-white text-lg md:text-xl leading-relaxed max-w-3xl">
-              Steel Gas Equipment offer a wide range of components and equipment along with expert guidance from the beginning to the end of your project. In that way, we provide you with much more than just a product.
-            </p>
           </div>
         </div>
       </section>

@@ -120,7 +120,7 @@ export default function ServiceValvesLiquidPage() {
 
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [isModalOpen]);
+  }, [isModalOpen, navigateModal]);
 
   return (
     <>

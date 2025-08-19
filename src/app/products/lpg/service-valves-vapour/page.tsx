@@ -118,7 +118,7 @@ export default function ServiceValvesVapourPage() {
 
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [isModalOpen]);
+  }, [isModalOpen, navigateModal]);
 
   return (
     <>

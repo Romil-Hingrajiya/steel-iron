@@ -1,5 +1,4 @@
 import Heading from '@/components/ui/Heading';
-import Button from '@/components/ui/Button';
 import CTASection from '@/components/sections/CTASection';
 import Link from 'next/link';
 
@@ -49,44 +48,6 @@ export default function LPGPage() {
       image: '/products/1_service-valves_vapour.webp',
       features: ['Vapour phase operation', 'Precise flow control', 'Pressure regulation', 'Temperature compensation'],
       applications: ['Gas distribution', 'Vapour systems', 'Commercial heating', 'Industrial processes']
-    }
-  ];
-
-  const specifications = [
-    {
-      title: 'Material',
-      icon: '🔧',
-      items: [
-        'Body: Brass, aluminium rod, upper cold rolled steel, lower ductile iron',
-        'Liner: Stainless steel',
-        'Spring guide: Aluminium, brass, stainless steel, coated steel',
-        'Spring: Coated steel, stainless steel, corrosion resistant steel',
-        'Seat disc: PTFE'
-      ]
-    },
-    {
-      title: 'Specifications',
-      icon: '⚙️',
-      items: [
-        'Gas types: LPG (Propane, Butane)',
-        'Connections: Thread NPT',
-        'Pressure range: Max. 27 bar (391 psi)',
-        'Capacity: 10,390 SCFM (Air at 120% of set pressure)',
-        'Series available: 3135, A3149, AA3135, W3132G and others',
-        'Sizes and ranges: 1/4" to 2½"',
-        'Standards: UL listed, ASME, CE, PED'
-      ]
-    },
-    {
-      title: 'Features',
-      icon: '🔍',
-      items: [
-        '"Pop-action" = max. protection, min. product loss',
-        'Automatic reseating of relief valves after discharging',
-        "'Bubble tight' seal",
-        'Available in configurations that permit direct attachment of vent piping when required',
-        'Optional pipeaway adapters'
-      ]
     }
   ];
 
@@ -148,12 +109,11 @@ export default function LPGPage() {
         </div>
       </section>
 
-
       {/* CTA Section */}
       <CTASection 
         title="Get in touch!"
-        description="Whether you already know what you need, or you would like the opinion of an expert, we are always ready to help you out."
-        buttonText="Contact us now"
+        description="Ready to discuss your LPG equipment needs? We're here to help you find the perfect solutions for your business."
+        buttonText="Contact Us"
         buttonLink="/contact"
       />
     </>

@@ -19,12 +19,12 @@ const Button: React.FC<ButtonProps> = ({
   type = 'button',
   disabled = false,
 }) => {
-  const baseClasses = 'inline-flex items-center justify-center font-medium rounded-lg transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed';
+  const baseClasses = 'cursor-pointer inline-flex items-center justify-center font-medium rounded-lg transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed';
   
   const variantClasses = {
-    primary: 'bg-[#58915B] text-white hover:bg-[#2A4734] focus:ring-[#58915B]',
-    secondary: 'bg-[#99BF9C] text-[#2A4734] hover:bg-[#58915B] hover:text-white focus:ring-[#99BF9C]',
-    outline: 'border-2 border-[#58915B] text-[#58915B] hover:bg-[#58915B] hover:text-white focus:ring-[#58915B]',
+    primary: 'bg-[#58915B] text-white border-2 border-[#58915B] hover:bg-white hover:text-[#58915B] hover:border-[#58915B] hover:shadow-lg focus:ring-[#58915B]',
+    secondary: 'bg-[#99BF9C] text-[#2A4734] border-2 border-[#99BF9C] hover:bg-white hover:text-[#99BF9C] hover:border-[#99BF9C] hover:shadow-lg focus:ring-[#99BF9C]',
+    outline: 'border-2 border-[#58915B] text-[#58915B] hover:bg-white hover:text-[#58915B] hover:border-[#58915B] hover:shadow-lg focus:ring-[#58915B]',
   };
   
   const sizeClasses = {

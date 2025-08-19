@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import Image from 'next/image';
 import Heading from '@/components/ui/Heading';
-import Button from '@/components/ui/Button';
+// import Button from '@/components/ui/Button';
 import CTASection from '@/components/sections/CTASection';
 
 const CertificatesPage = () => {
@@ -103,16 +103,43 @@ const CertificatesPage = () => {
 
   return (
     <>
-      {/* Hero Section */}
-      <section className="bg-gradient-to-br from-[#2A4734] via-[#1a2f1f] to-[#0f1a0f] text-white py-20">
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center max-w-3xl py-6">
-            <h2 className="text-white mb-6 text-4xl md:text-5xl lg:text-6xl font-bold text-left">
-            Recognitions That Reflect Our Commitment to Excellence
-            </h2>
-            <p className="text-xl md:text-2xl mb-8 max-w-3xl mx-auto">
-            Explore our collection of professional certifications, each a testament to our skills, standards, and dedication to delivering quality you can trust.
-            </p>
+      {/* Hero Section with Background Image */}
+      <section className="relative bg-gradient-to-br from-[#2A4734] via-[#1a2f1f] to-[#0f1a0f] text-white min-h-screen flex items-center overflow-hidden">
+        {/* Background Image */}
+        <div className="absolute inset-0 z-0">
+          <div 
+            className="w-full h-full bg-cover bg-center bg-no-repeat"
+            style={{
+              backgroundImage: 'url(/certificate-bg.jpg)',
+            }}
+          />
+          </div>
+        
+        {/* Green Blur Overlay for Better Text Visibility */}
+        <div className="absolute inset-0 bg-gradient-to-br from-[#2A4734]/90 via-[#1a2f1f]/85 to-[#0f1a0f]/90 z-10"></div>
+        
+        {/* Content */}
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-20">
+          <div className="min-h-screen flex items-center">
+            {/* Left Side Content Only */}
+            <div className="text-left max-w-3xl">
+              {/* Tagline */}
+              <div className="mb-4">
+                <span className="text-sm font-medium text-white opacity-90 tracking-wide uppercase">
+                  Professional Excellence
+                </span>
+        </div>
+              
+              {/* Main Heading */}
+              <Heading level={1} className="text-white text-4xl md:text-5xl lg:text-6xl font-bold leading-tight mb-8">
+                Our Certificates
+            </Heading>
+              
+              {/* Description */}
+              <p className="text-white text-lg md:text-xl leading-relaxed mb-8">
+                Explore our collection of professional certifications, each a testament to our skills, standards, and dedication to delivering quality you can trust.
+              </p>
+            </div>
           </div>
         </div>
       </section>
@@ -120,15 +147,7 @@ const CertificatesPage = () => {
       {/* Certificates Gallery Section */}
       <section className="max-w-7xl mx-auto bg-white py-16">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-12">
-            <Heading level={2} className="mb-6">
-              Our Certificates
-            </Heading>
-            <p className="text-lg text-gray-600 max-w-3xl mx-auto">
-            Explore our collection of professional certifications, each a testament to our skills, standards, and dedication to delivering quality you can trust.
-            </p>
-          </div>
-
+          
           {/* Image Grid */}
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 mb-8">
             {getCurrentPageImages().map((imageIndex) => (
@@ -156,8 +175,8 @@ const CertificatesPage = () => {
                  />
                  <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black to-transparent p-3 z-50">
                    <p className="text-white text-sm font-medium">Certificate {imageIndex + 1}</p>
-                 </div>
-               </div>
+                </div>
+              </div>
             ))}
           </div>
 
@@ -188,8 +207,8 @@ const CertificatesPage = () => {
                     {page}
                   </button>
                 ))}
-              </div>
-
+                </div>
+                
               {/* Next Button */}
               <button
                 onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPages))}
@@ -198,7 +217,7 @@ const CertificatesPage = () => {
               >
                 Next
               </button>
-            </div>
+                </div>
           )}
         </div>
       </section>
@@ -253,10 +272,10 @@ const CertificatesPage = () => {
               {/* Image Counter */}
               <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 bg-black bg-opacity-50 text-white px-4 py-2 rounded-lg">
                 {currentImageIndex + 1} of {totalImages}
+                </div>
               </div>
             </div>
           </div>
-        </div>
       )}
 
              {/* CTA Section */}
